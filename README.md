@@ -25,7 +25,7 @@ md.use(mk);
 
 Include the KaTeX stylesheet in your html:
 ```html
-<link rel="stylesheet"href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
 ```
 
 If you're using the default markdown-it parser, I also recommend the github stylesheet:
