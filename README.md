@@ -6,9 +6,13 @@ KaTeX is fast. This plugin makes it easy to support it in your markdown.
 
 ## Usage
 
+Install the plugin
+
 ```
 npm install markdown-it-katex
 ```
+
+Include it in your javascript
 
 ```javascript
 var md = require('markdown-it')(),
