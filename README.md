@@ -4,7 +4,9 @@ Add Math to your Markdown
 
 [KaTeX](https://github.com/Khan/KaTeX) is a faster alternative to MathJax. This plugin makes it easy to support in your markdown.
 
-Need convincing? Check out the comparative benchmark: [KaTeX vs MathJax](https://jsperf.com/katex-vs-mathjax/42)
+Need convincing?
+Check out the comparative benchmark: [KaTeX vs MathJax](https://jsperf.com/katex-vs-mathjax/42)
+Try it in your browser: [markdown-it-katex demo](http://waylonflinn.github.io/markdown-it-katex/)
 
 ## Usage
 
