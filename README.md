@@ -21,7 +21,7 @@ Install the plugin
 npm install markdown-it-katex
 ```
 
-Include it in your javascript
+Use it in your javascript
 
 ```javascript
 var md = require('markdown-it')(),
@@ -38,8 +38,10 @@ Include the KaTeX stylesheet in your html:
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
 ```
 
-If you're using the default markdown-it parser, I also recommend the github stylesheet:
-https://github.com/sindresorhus/github-markdown-css
+If you're using the default markdown-it parser, I also recommend the [github stylesheet](https://github.com/sindresorhus/github-markdown-css):
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css"/>
+```
 
 ## Examples
 
