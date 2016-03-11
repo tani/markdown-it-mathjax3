@@ -25,9 +25,12 @@ Include it in your javascript
 
 ```javascript
 var md = require('markdown-it')(),
-	mk = require('markdown-it-katex');
+    mk = require('markdown-it-katex');
 
 md.use(mk);
+
+// double backslash is required for javascript strings, but not html input
+var result = md.render('# Math Rulez! \n  $\\sqrt{3x-1}+(1+x)^2$');
 ```
 
 Include the KaTeX stylesheet in your html:
