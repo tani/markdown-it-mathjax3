@@ -10,6 +10,10 @@ Need convincing?
 * Try it in your browser: [markdown-it-katex demo](http://waylonflinn.github.io/markdown-it-katex/)
 
 ## Usage
+Install markdown-it
+```
+npm install markdown-it
+```
 
 Install the plugin
 
