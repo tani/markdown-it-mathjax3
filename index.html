@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <head>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
-	<link rel="stylesheet" href="./github-markdown.css"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css"/>
 	<style>
 	#input {
 		display: block;
 		font-size: 12pt;
-
+		padding-top: 0.5em;
+		padding-left: 0.1em;
+		font-family: monospace;
+	}
+	#button {
+		margin-top: 1em;
+		width: 120px;
+		height: 50px;
+		font-size: 14pt;
 	}
 	#output {
 		margin: 20px;
@@ -14,7 +22,7 @@
 	</style>
 </head>
 <body>
-	<textarea id="input" type="textarea" rows=10, cols=80>
+	<textarea id="input" type="textarea" rows=15, cols=80 spellcheck="false">
 # Maxwell's Equations
 
 
