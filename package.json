@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-katex",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Fast math support for markdown-it with KaTeX",
   "main": "index.js",
   "scripts": {
@@ -22,5 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "katex": "^0.5.1"
+  },
+  "devDependencies": {
+    "markdown-it": "^6.0.0"
   }
 }
