@@ -1,0 +1,21 @@
+{
+  "name": "markdown-it-katex",
+  "version": "1.0.0",
+  "description": "Easy KaTeX support for markdown-it ",
+  "main": "index.js",
+  "scripts": {
+    "watch": "watchify browser.js -o bundle.js -v",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "markdown",
+    "KaTeX",
+    "math",
+    "LaTeX"
+  ],
+  "author": "waylonflinn@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "katex": "^0.5.1"
+  }
+}
