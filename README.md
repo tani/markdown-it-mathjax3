@@ -43,6 +43,11 @@ If you're using the default markdown-it parser, I also recommend the [github sty
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css"/>
 ```
 
+`KaTeX` options can be supplied with the second argument to use.
+```javascript
+md.use(mk, {"throwOnError" : false, "errorColor" : " #cc0000"});
+```
+
 ## Examples
 
 ### Inline

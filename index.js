@@ -220,16 +220,20 @@ function makeMath_block(open, close) {
 }
 
 
-module.exports = function math_plugin(md) {
+module.exports = function math_plugin(md, options) {
   // Default options
 
   var inlineOpen = '$',
       inlineClose = '$',
       blockOpen = '$$',
       blockClose = '$$';
+
+  options = options || {};
+
   // set KaTeX as the renderer for markdown-it-simplemath
   var katexInline = function(latex){
-    return katex.renderToString(latex, {"displayMode" : false});
+    options.displayMode = false;
+    return katex.renderToString(latex, options);
   };
 
   var inlineRenderer = function(tokens, idx){
@@ -237,7 +241,8 @@ module.exports = function math_plugin(md) {
   };
 
   var katexBlock = function(latex){
-    return katex.renderToString(latex, {"displayMode" : true});
+    options.displayMode = true;
+    return katex.renderToString(latex, options);
   }
 
   var blockRenderer = function(tokens, idx){
