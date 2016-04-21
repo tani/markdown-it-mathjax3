@@ -1,0 +1,8 @@
+
+Simple inline math
+.
+$1+1 = 2$
+
+.
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></p>
+.
