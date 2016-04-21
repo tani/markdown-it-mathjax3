@@ -12,6 +12,7 @@ var md = require('markdown-it')()
 testLoad(path.join(__dirname, 'fixtures/default.txt'), function(data){
 	data.fixtures.forEach(function (fixture){
 
+		/* generic test definition code using tape */
 		tape(fixture.header, function(t){
 			t.plan(1);
 
@@ -22,5 +23,7 @@ testLoad(path.join(__dirname, 'fixtures/default.txt'), function(data){
 
 			//generate(, { "assert" : t.assert }, md);
 		});
+
+
 	});
 });
