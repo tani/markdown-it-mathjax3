@@ -32,7 +32,7 @@ Shouldn't render empty content
 .
 aaa $$ bbb
 .
-<p>aaa bbb</p>
+<p>aaa $$ bbb</p>
 .
 
 Shouldn't render USD
