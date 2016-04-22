@@ -21,9 +21,7 @@ testLoad(path.join(__dirname, 'fixtures/default.txt'), function(data){
 
 			t.equals(actual, expected);
 
-			//generate(, { "assert" : t.assert }, md);
 		});
-
 
 	});
 });
