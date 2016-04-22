@@ -35,6 +35,20 @@ aaa $$ bbb
 <p>aaa bbb</p>
 .
 
+Shouldn't render USD
+.
+aaa $5.99 bbb
+.
+<p>aaa $5.99 bbb</p>
+.
+
+Shouldn't render trailing delimiter
+.
+aaa 5.99$ bbb
+.
+<p>aaa 5.99$ bbb</p>
+.
+
 Paragraph break in inline math is not allowed
 .
 foo $1+1
