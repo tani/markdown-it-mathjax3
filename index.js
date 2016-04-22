@@ -152,7 +152,7 @@ module.exports = function math_plugin(md, options) {
   var katexBlock = function(latex){
     options.displayMode = true;
     try{
-      return katex.renderToString(latex, options);
+      return "<p>" + katex.renderToString(latex, options) + "</p>";
     }
     catch(error){
       if(options.throwOnError){ console.log(error); }
