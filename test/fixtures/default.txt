@@ -10,8 +10,8 @@ Simple block math
 .
 $$1+1 = 2$$
 .
-<span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
 .
 
 No whitespace before and after is fine
@@ -79,8 +79,8 @@ Block math can be indented up to 3 spaces
    1+1 = 2
    $$
 .
-<span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
 .
 
 But 4 means a code block
@@ -117,13 +117,13 @@ $$
 
 $$
 .
-<span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">
   1
 + 1
 
 = 2
 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span>
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
 .
 
 Text can immediately follow inline math
@@ -139,8 +139,8 @@ Display math self-closes at the end of document
 $$
 1+1 = 2
 .
-<span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
 .
 
 
@@ -154,8 +154,8 @@ Display and inline math can appear in lists
 <ul>
 <li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></li>
 <li>
-<span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
 </li>
 </ul>
 .
@@ -164,8 +164,8 @@ Display math can be written in one line
 .
 $$1+1 = 2$$
 .
-<span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1+1 = 2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span></span></p>
 .
 
 Or on multiple lines with expression starting and ending on delimited lines
@@ -175,10 +175,10 @@ $$[
 [3, 4]
 ]$$
 .
-<span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo>]</mo><mo>[</mo><mn>3</mn><mo separator="true">,</mo><mn>4</mn><mo>]</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">[
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo>]</mo><mo>[</mo><mn>3</mn><mo separator="true">,</mo><mn>4</mn><mo>]</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">[
 [1, 2]
 [3, 4]
-]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base displaystyle textstyle uncramped"><span class="mopen">[</span><span class="mopen">[</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathrm">2</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathrm">3</span><span class="mpunct">,</span><span class="mord mathrm">4</span><span class="mclose">]</span><span class="mclose">]</span></span></span></span></span>
+]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base displaystyle textstyle uncramped"><span class="mopen">[</span><span class="mopen">[</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="mord mathrm">2</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathrm">3</span><span class="mpunct">,</span><span class="mord mathrm">4</span><span class="mclose">]</span><span class="mclose">]</span></span></span></span></span></p>
 .
 
 Escaped delimiters should not render math
