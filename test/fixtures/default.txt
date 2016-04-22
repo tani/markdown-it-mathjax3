@@ -28,6 +28,13 @@ foo$-1+1 = 2$bar
 <p>foo<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">-1+1 = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord">−</span><span class="mord mathrm">1</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">2</span></span></span></span>bar</p>
 .
 
+Shouldn't render empty content
+.
+aaa $$ bbb
+.
+<p>aaa bbb</p>
+.
+
 Paragraph break in inline math is not allowed
 .
 foo $1+1
