@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-katex",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Fast math support for markdown-it with KaTeX",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,8 @@
     "KaTeX",
     "math",
     "LaTeX",
-    "markdown-it-plugin"
+    "markdown-it-plugin",
+    "markdown-it",
   ],
   "author": "waylonflinn@gmail.com",
   "license": "MIT",
