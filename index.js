@@ -14,15 +14,15 @@ var katex = require('katex');
 //return if we have valid delimiter, '$', is in the position.
 function isValidDelim(state) {
   var lastChar, secondLastChar, nextChar, pos = state.pos;
-  
+
   if(state.src[pos]!=='$'){
     return false; //the character $ must be in its position.
   }
-  
+
   secondLastChar= pos > 1 ? state.src[pos-2] : ' '
   lastChar      = pos > 0 ? state.src[pos-1] : ' '
   nextChar      = pos + 1 < state.src.length ? state.src[pos+1] : ' '
-  
+
   if(
     lastChar === '\\' //$ we found was escaped.
     || (lastChar === '$' && secondLastChar !== '\\') // $ we found was after $ but not escaped.
@@ -31,14 +31,14 @@ function isValidDelim(state) {
   {
     return false;
   }
-  
+
   return true;
 }
 
 function math_inline(state, silent){
   var start, found = false, token;
   if(silent) { return false; }
-  
+
   start = state.pos;
   if(state.src[start] !== '$'){ return false; }
   if(!isValidDelim(state)){
@@ -47,7 +47,7 @@ function math_inline(state, silent){
     return true;
   }
   state.pos+=1;
-  
+
   while(state.pos < state.posMax){
     if(isValidDelim(state)){
       found = true;
@@ -60,12 +60,12 @@ function math_inline(state, silent){
     state.pos = start;
     return false;
   }
-  
+
   //found the closing delimiter and state.pos is pointing it
   token = state.push('math_inline','math',0);
   token.content = state.src.slice(start+1,state.pos).trim();
   token.markup = '$';
-  
+
   state.pos += 1;
   return true;
 }
@@ -74,41 +74,44 @@ function math_block(state, start, end, silent){
   var firstLine, lastLine, next, lastPos, found = false, token,
       pos = state.bMarks[start] + state.tShift[start],
       max = state.eMarks[start]
-  
+
   if(pos + 2 > max){ return false; }
   if(state.src.slice(pos,pos+2)!=='$$'){ return false; }
-  
+
   pos += 2;
   firstLine = state.src.slice(pos,max);
-  
+
   if(silent){ return true; }
   if(firstLine.trim().slice(-2)==='$$'){
     // Single line expression
     firstLine = firstLine.trim().slice(0, -2);
     found = true;
   }
-  
-  for(next = start; next < end; ){
-    if(found){ break; }
+
+  for(next = start; !found; ){
+
     next++;
+
+    if(next >= end){ break; }
+
     pos = state.bMarks[next]+state.tShift[next];
     max = state.eMarks[next];
+
     if(pos < max && state.tShift[next] < state.blkIndent){
+      // non-empty line with negative indent should stop the list:
       break;
     }
+
     if(state.src.slice(pos,max).trim().slice(-2)==='$$'){
       lastPos = state.src.slice(0,max).lastIndexOf('$$');
       lastLine = state.src.slice(pos,lastPos);
       found = true;
     }
+
   }
-  
-  if(!found){
-    return false;
-  }
-  
+
   state.line = next + 1;
-  
+
   token = state.push('math_block', 'math', 0);
   token.block = true;
   token.content = (firstLine && firstLine.trim() ? firstLine + '\n' : '')
