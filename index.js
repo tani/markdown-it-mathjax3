@@ -61,6 +61,12 @@ function math_inline(state, silent){
     return false;
   }
 
+  if (start + 1 === state.pos) {
+    // There is nothing between the delimiters -- don't match.
+    state.pos = start;
+    return false;
+  }
+
   //found the closing delimiter and state.pos is pointing it
   token = state.push('math_inline','math',0);
   token.content = state.src.slice(start+1,state.pos).trim();
