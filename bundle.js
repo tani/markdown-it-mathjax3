@@ -98,225 +98,138 @@ for rendering output.
 
 var katex = require('katex');
 
+//return if we have valid delimiter, '$', is in the position.
+function isValidDelim(state) {
+  var lastChar, secondLastChar, nextChar, pos = state.pos;
 
-function scanDelims(state, start, delimLength) {
-  var pos = start, lastChar, nextChar, count, can_open, can_close,
-      isLastWhiteSpace, isLastPunctChar,
-      isNextWhiteSpace, isNextPunctChar,
-      left_flanking = true,
-      right_flanking = true,
-      max = state.posMax,
-      isWhiteSpace = state.md.utils.isWhiteSpace,
-      isPunctChar = state.md.utils.isPunctChar,
-      isMdAsciiPunct = state.md.utils.isMdAsciiPunct;
-
-  // treat beginning of the line as a whitespace
-  lastChar = start > 0 ? state.src.charCodeAt(start - 1) : 0x20;
-
-  if (pos >= max) {
-    can_open = false;
+  if(state.src[pos]!=='$'){
+    return false; //the character $ must be in its position.
   }
 
-  pos += delimLength;
+  secondLastChar= pos > 1 ? state.src[pos-2] : ' '
+  lastChar      = pos > 0 ? state.src[pos-1] : ' '
+  nextChar      = pos + 1 < state.src.length ? state.src[pos+1] : ' '
 
-  count = pos - start;
-
-  // treat end of the line as a whitespace
-  nextChar = pos < max ? state.src.charCodeAt(pos) : 0x20;
-
-  isLastPunctChar = isMdAsciiPunct(lastChar) || isPunctChar(String.fromCharCode(lastChar));
-  isNextPunctChar = isMdAsciiPunct(nextChar) || isPunctChar(String.fromCharCode(nextChar));
-
-  isLastWhiteSpace = isWhiteSpace(lastChar);
-  isNextWhiteSpace = isWhiteSpace(nextChar);
-
-  if (isNextWhiteSpace) {
-    left_flanking = false;
-  } else if (isNextPunctChar) {
-    if (!(isLastWhiteSpace || isLastPunctChar)) {
-      left_flanking = false;
-    }
+  if(
+    lastChar === '\\' //$ we found was escaped.
+    || (lastChar === '$' && secondLastChar !== '\\') // $ we found was after $ but not escaped.
+    || nextChar === '$' //$ we found was actually block delimiter $$.
+  )
+  {
+    return false;
   }
 
-  if (isLastWhiteSpace) {
-    right_flanking = false;
-  } else if (isLastPunctChar) {
-    if (!(isNextWhiteSpace || isNextPunctChar)) {
-      right_flanking = false;
-    }
-  }
-
-  can_open = left_flanking;
-  can_close = right_flanking;
-
-  return {
-    can_open: can_open,
-    can_close: can_close,
-    delims: count
-  };
+  return true;
 }
 
+function math_inline(state, silent){
+  var start, found = false, token;
+  if(silent) { return false; }
 
-function makeMath_inline(open, close) {
-  return function math_inline(state, silent) {
-    var startCount,
-        found,
-        res,
-        token,
-        closeDelim,
-        max = state.posMax,
-        start = state.pos,
-        openDelim = state.src.slice(start, start + open.length);
-
-    if (openDelim !== open) { return false; }
-    if (silent) { return false; }    // Don’t run any pairs in validation mode
-
-    res = scanDelims(state, start, openDelim.length);
-    startCount = res.delims;
-
-    if (!res.can_open) {
-      state.pos += startCount;
-      // Earlier we checked !silent, but this implementation does not need it
-      state.pending += state.src.slice(start, state.pos);
-      return true;
-    }
-
-    state.pos = start + open.length;
-
-    while (state.pos < max) {
-      closeDelim = state.src.slice(state.pos, state.pos + close.length);
-      if (closeDelim === close) {
-        res = scanDelims(state, state.pos, close.length);
-        if (res.can_close) {
-          found = true;
-          break;
-        }
-      }
-
-      state.md.inline.skipToken(state);
-    }
-
-    if (!found) {
-      // Parser failed to find ending tag, so it is not a valid math
-      state.pos = start;
-      return false;
-    }
-
-    // Found!
-    state.posMax = state.pos;
-    state.pos = start + close.length;
-
-    // Earlier we checked !silent, but this implementation does not need it
-    token = state.push('math_inline', 'math', 0);
-    token.content = state.src.slice(state.pos, state.posMax);
-    token.markup = open;
-
-    state.pos = state.posMax + close.length;
-    state.posMax = max;
-
+  start = state.pos;
+  if(state.src[start] !== '$'){ return false; }
+  if(!isValidDelim(state)){
+    state.pos += 1;
+    state.pending += '$';
     return true;
-  };
+  }
+  state.pos+=1;
+
+  while(state.pos < state.posMax){
+    if(isValidDelim(state)){
+      found = true;
+      break;
+    }
+    state.md.inline.skipToken(state);
+  }
+  if(!found){
+    // Parser failed to find closing delimiter, so it is not a valid math
+    state.pos = start;
+    return false;
+  }
+
+  if (start + 1 === state.pos) {
+    // There is nothing between the delimiters -- don't match.
+    state.pos = start;
+    return false;
+  }
+
+  //found the closing delimiter and state.pos is pointing it
+  token = state.push('math_inline','math',0);
+  token.content = state.src.slice(start+1,state.pos).trim();
+  token.markup = '$';
+
+  state.pos += 1;
+  return true;
 }
 
-function makeMath_block(open, close) {
-  return function math_block(state, startLine, endLine, silent) {
-    var openDelim, len, params, nextLine, token, firstLine, lastLine, lastLinePos,
-        haveEndMarker = false,
-        pos = state.bMarks[startLine] + state.tShift[startLine],
-        max = state.eMarks[startLine];
+function math_block(state, start, end, silent){
+  var firstLine, lastLine, next, lastPos, found = false, token,
+      pos = state.bMarks[start] + state.tShift[start],
+      max = state.eMarks[start]
 
-    if (pos + open.length > max) { return false; }
+  if(pos + 2 > max){ return false; }
+  if(state.src.slice(pos,pos+2)!=='$$'){ return false; }
 
-    openDelim = state.src.slice(pos, pos + open.length);
+  pos += 2;
+  firstLine = state.src.slice(pos,max);
 
-    if (openDelim !== open) { return false; }
+  if(silent){ return true; }
+  if(firstLine.trim().slice(-2)==='$$'){
+    // Single line expression
+    firstLine = firstLine.trim().slice(0, -2);
+    found = true;
+  }
 
-    pos += open.length;
-    firstLine = state.src.slice(pos, max);
+  for(next = start; !found; ){
 
-    // Since start is found, we can report success here in validation mode
-    if (silent) { return true; }
+    next++;
 
-    if (firstLine.trim().slice(-close.length) === close) {
-      // Single line expression
-      firstLine = firstLine.trim().slice(0, -close.length);
-      haveEndMarker = true;
+    if(next >= end){ break; }
+
+    pos = state.bMarks[next]+state.tShift[next];
+    max = state.eMarks[next];
+
+    if(pos < max && state.tShift[next] < state.blkIndent){
+      // non-empty line with negative indent should stop the list:
+      break;
     }
 
-    // search end of block
-    nextLine = startLine;
-
-    for (;;) {
-      if (haveEndMarker) { break; }
-
-      nextLine++;
-
-      if (nextLine >= endLine) {
-        // unclosed block should be autoclosed by end of document.
-        // also block seems to be autoclosed by end of parent
-        break;
-      }
-
-      pos = state.bMarks[nextLine] + state.tShift[nextLine];
-      max = state.eMarks[nextLine];
-
-      if (pos < max && state.tShift[nextLine] < state.blkIndent) {
-        // non-empty line with negative indent should stop the list:
-        break;
-      }
-
-      if (state.src.slice(pos, max).trim().slice(-close.length) !== close) {
-        continue;
-      }
-
-      if (state.tShift[nextLine] - state.blkIndent >= 4) {
-        // closing block math should be indented less then 4 spaces
-        continue;
-      }
-
-      lastLinePos = state.src.slice(0, max).lastIndexOf(close);
-      lastLine = state.src.slice(pos, lastLinePos);
-
-      pos += lastLine.length + close.length;
-
-      // make sure tail has spaces only
-      pos = state.skipSpaces(pos);
-
-      if (pos < max) { continue; }
-
-      // found!
-      haveEndMarker = true;
+    if(state.src.slice(pos,max).trim().slice(-2)==='$$'){
+      lastPos = state.src.slice(0,max).lastIndexOf('$$');
+      lastLine = state.src.slice(pos,lastPos);
+      found = true;
     }
 
-    // If math block has heading spaces, they should be removed from its inner block
-    len = state.tShift[startLine];
+  }
 
-    state.line = nextLine + (haveEndMarker ? 1 : 0);
+  state.line = next + 1;
 
-    token = state.push('math_block', 'math', 0);
-    token.block = true;
-    token.content = (firstLine && firstLine.trim() ? firstLine + '\n' : '') +
-      state.getLines(startLine + 1, nextLine, len, true) +
-      (lastLine && lastLine.trim() ? lastLine : '');
-    token.info = params;
-    token.map = [ startLine, state.line ];
-    token.markup = open;
-
-    return true;
-  };
+  token = state.push('math_block', 'math', 0);
+  token.block = true;
+  token.content = (firstLine && firstLine.trim() ? firstLine + '\n' : '')
+    + state.getLines(start + 1, next, state.tShift[start], true)
+    + (lastLine && lastLine.trim() ? lastLine : '');
+  token.map = [ start, state.line ];
+  token.markup = '$$';
+  return true;
 }
 
-
-module.exports = function math_plugin(md) {
+module.exports = function math_plugin(md, options) {
   // Default options
 
-  var inlineOpen = '$',
-      inlineClose = '$',
-      blockOpen = '$$',
-      blockClose = '$$';
+  options = options || {};
+
   // set KaTeX as the renderer for markdown-it-simplemath
   var katexInline = function(latex){
-    return katex.renderToString(latex, {"displayMode" : false});
+    options.displayMode = false;
+    try{
+      return katex.renderToString(latex, options);
+    }
+    catch(error){
+      if(options.throwOnError){ console.log(error); }
+      return latex;
+    }
   };
 
   var inlineRenderer = function(tokens, idx){
@@ -324,15 +237,19 @@ module.exports = function math_plugin(md) {
   };
 
   var katexBlock = function(latex){
-    return katex.renderToString(latex, {"displayMode" : true});
+    options.displayMode = true;
+    try{
+      return "<p>" + katex.renderToString(latex, options) + "</p>";
+    }
+    catch(error){
+      if(options.throwOnError){ console.log(error); }
+      return latex;
+    }
   }
 
   var blockRenderer = function(tokens, idx){
     return  katexBlock(tokens[idx].content) + '\n';
   }
-
-  var math_inline = makeMath_inline(inlineOpen, inlineClose);
-  var math_block = makeMath_block(blockOpen, blockClose);
 
   md.inline.ruler.before('escape', 'math_inline', math_inline);
   md.block.ruler.after('blockquote', 'math_block', math_block, {
