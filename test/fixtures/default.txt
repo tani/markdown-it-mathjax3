@@ -35,18 +35,11 @@ aaa $$ bbb
 <p>aaa $$ bbb</p>
 .
 
-Shouldn't render USD
+Should require a closing delimiter
 .
 aaa $5.99 bbb
 .
 <p>aaa $5.99 bbb</p>
-.
-
-Shouldn't render trailing delimiter
-.
-aaa 5.99$ bbb
-.
-<p>aaa 5.99$ bbb</p>
 .
 
 Paragraph break in inline math is not allowed
@@ -59,14 +52,7 @@ foo $1+1
 <p>= 2$ bar</p>
 .
 
-Neither is an end of document
-.
-foo $1+1 = 2
-.
-<p>foo $1+1 = 2</p>
-.
-
-Inline math with apparent markup
+Inline math with apparent markup should not be processed
 .
 foo $1 *i* 1$ bar
 .
@@ -201,16 +187,16 @@ Thus, $20,000 and USD$30,000 won't parse as math.
 <p>Thus, $20,000 and USD$30,000 won't parse as math.</p>
 .
 
-Require non whitespace to left of opening inline math
+Require non whitespace to right of opening inline math
 .
 For some Europeans, it is 2$ for a can of soda, not 1$.
 .
 <p>For some Europeans, it is 2$ for a can of soda, not 1$.</p>
 .
 
-Require non whitespace to right of closing inline math.
+Require non whitespace to left of closing inline math.
 .
-I will give you 20$, if you give me 15$ tomorrow.
+I will give you $20 today, if you give me more $ tomorrow.
 .
-<p>I will give you 20$, if you give me 15$ tomorrow.</p>
+<p>I will give you $20 today, if you give me more $ tomorrow.</p>
 .
