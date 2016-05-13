@@ -193,3 +193,24 @@ $$
 1
 $$</p>
 .
+
+Numbers can not follow closing inline math
+.
+Thus, $20,000 and USD$30,000 won't parse as math.
+.
+<p>Thus, $20,000 and USD$30,000 won't parse as math.</p>
+.
+
+Require non whitespace to left of opening inline math
+.
+For some Europeans, it is 2$ for a can of soda, not 1$.
+.
+<p>For some Europeans, it is 2$ for a can of soda, not 1$.</p>
+.
+
+Require non whitespace to right of closing inline math.
+.
+I will give you 20$, if you give me 15$ tomorrow.
+.
+<p>I will give you 20$, if you give me 15$ tomorrow.</p>
+.
