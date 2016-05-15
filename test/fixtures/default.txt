@@ -200,3 +200,10 @@ I will give you $20 today, if you give me more $ tomorrow.
 .
 <p>I will give you $20 today, if you give me more $ tomorrow.</p>
 .
+
+Inline blockmath is not (currently) registered.
+.
+It's well know that $$1 + 1 = 3$$ for sufficiently large 1.
+.
+<p>It's well know that $$1 + 1 = 3$$ for sufficiently large 1.</p>
+.
