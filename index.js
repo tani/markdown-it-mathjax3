@@ -40,39 +40,36 @@ function isValidDelim(state, pos) {
 }
 
 function math_inline(state, silent) {
-    var start, match, token, res,
-        pos = state.pos;
+    var start, match, token, res, pos, esc_count;
 
     if (state.src[state.pos] !== "$") { return false; }
 
-    res = isValidDelim(state, pos);
+    res = isValidDelim(state, state.pos);
     if (!res.can_open) {
         if (!silent) { state.pending += "$"; }
         state.pos += 1;
         return true;
     }
 
+    // First check for and bypass all properly escaped delimieters
+    // This loop will assume that the first leading backtick can not
+    // be the first character in state.src, which is known since
+    // we have found an opening delimieter already.
     start = state.pos + 1;
-    match = state.src.indexOf("$", start);
+    match = start;
+    while ( (match = state.src.indexOf("$", match)) !== -1) {
+        // Found potential $, look for escapes, pos will point to
+        // first non escape when complete
+        pos = match - 1;
+        while (state.src[pos] === "\\") { pos -= 1; }
+
+        // Even number of escapes, potential closing delimiter found
+        if ( ((match - pos) % 2) == 1 ) { break; }
+        match += 1;
+    }
 
     // No closing delimter found.  Consume $ and continue.
     if (match === -1) {
-        if (!silent) { state.pending += "$"; }
-        state.pos = start;
-        return true;
-    }
-
-    res = isValidDelim(state, match);
-
-    // We only will look at the very next delimeter while searching
-    // for closing delimeters.  As a consequnce, we will never send
-    // KaTeX a $ inside of math mode, even if escaped.  The other alternative
-    // would otherwise require escaping commonly used things such as
-    // \int, \sum, etc...  Perhaps there is a way to find a better solution.
-    // Such as counting the number of \\\\\\\$ and if odd escape $ and remove
-    // and leading \ or otherwise leave as is.
-
-    if (!res.can_close) {
         if (!silent) { state.pending += "$"; }
         state.pos = start;
         return true;
@@ -82,6 +79,14 @@ function math_inline(state, silent) {
     if (match - start === 0) {
         if (!silent) { state.pending += "$$"; }
         state.pos = start + 1;
+        return true;
+    }
+
+    // Check for valid closing delimiter
+    res = isValidDelim(state, match);
+    if (!res.can_close) {
+        if (!silent) { state.pending += "$"; }
+        state.pos = start;
         return true;
     }
 
