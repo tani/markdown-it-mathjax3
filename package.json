@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:nzt/markdown-it-mathjax.git"
+    "url": "git+ssh://git@github.com:nzt/markdown-it-mathjax3.git"
   },
   "keywords": [
     "markdown",
