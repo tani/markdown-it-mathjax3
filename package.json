@@ -21,8 +21,19 @@
     "mathjax-full": "^3.0.5"
   },
   "devDependencies": {
-    "markdown-it": "^6.0.0",
-    "markdown-it-testgen": "^0.1.4",
-    "tape": "^4.5.1"
-  }
+    "@types/markdown-it": "^10.0.0",
+    "@types/punycode": "^2.1.0",
+    "prettier": "^2.0.4",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write *.ts *.json"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js",
+    "package.json"
+  ]
 }
