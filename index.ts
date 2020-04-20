@@ -192,50 +192,28 @@ function math_block(
   return true;
 }
 
-export default (md: MarkdownIt, options: any) => {
+export default function (md: MarkdownIt, options: any) {
   // Default options
 
   options = options || {};
 
   // set MathJax as the renderer for markdown-it-simplemath
-  const mathjaxInline = (latex: string): string => {
-    options.display = false;
-    try {
-      return adaptor.outerHTML(mathDocument.convert(latex, options));
-    } catch (error) {
-      if (options.throwOnError) {
-        console.log(error);
-      }
-      return latex;
-    }
-  };
-
-  const inlineRenderer = (tokens: Token[], idx: number): string => {
-    return mathjaxInline(tokens[idx].content);
-  };
-
-  const mathjaxBlock = (latex: string): string => {
-    options.display = true;
-    try {
-      return adaptor.outerHTML(mathDocument.convert(latex, options));
-    } catch (error) {
-      if (options.throwOnError) {
-        console.error(error);
-      }
-      return latex;
-    }
-  };
-
-  const blockRenderer = function (tokens: Token[], idx: number): string {
-    return mathjaxBlock(tokens[idx].content) + "\n";
-  };
-
   md.inline.ruler.after("escape", "math_inline", math_inline);
   md.block.ruler.after("blockquote", "math_block", math_block, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
-  md.renderer.rules.math_inline = inlineRenderer;
-  md.renderer.rules.math_block = blockRenderer;
+  md.renderer.rules.math_inline = function (tokens: Token[], idx: number) {
+    options.display = false;
+    return adaptor.outerHTML(
+      mathDocument.convert(tokens[idx].content, options)
+    );
+  };
+  md.renderer.rules.math_block = function (tokens: Token[], idx: number) {
+    options.display = true;
+    return adaptor.outerHTML(
+      mathDocument.convert(tokens[idx].content, options)
+    );
+  };
   md.renderer.render = function (tokens, options, env) {
     let result = "",
       rules = this.rules;
@@ -251,9 +229,11 @@ export default (md: MarkdownIt, options: any) => {
         result += this.renderToken(tokens, i, options);
       }
     }
-    result += `<style>${adaptor.textContent(
-      svg.styleSheet(mathDocument) as any
-    )}</style>`;
+    if (!tokens.every((token) => token.tag !== "math")) {
+      result += `<style>${adaptor.textContent(
+        svg.styleSheet(mathDocument) as any
+      )}</style>`;
+    }
     return result;
   };
-};
+}
