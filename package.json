@@ -21,7 +21,7 @@
     "mathjax-full": "^3.0.5"
   },
   "devDependencies": {
-    "markdown-it": "^6.0.0",
+    "markdown-it": "^10.0.0",
     "markdown-it-testgen": "^0.1.4",
     "tape": "^4.5.1"
   }
