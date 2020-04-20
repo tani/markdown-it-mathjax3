@@ -27,6 +27,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
+    "prepublish": "tsc",
     "build": "tsc",
     "format": "prettier --write *.ts *.json"
   },
