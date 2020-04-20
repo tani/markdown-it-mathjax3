@@ -7,7 +7,7 @@ It differs in that it takes (a subset of) LaTeX as input and relies on MathJax
 for rendering output.
 */
 
-import MarkdownIt from "markdown-it";
+import type MarkdownIt from "markdown-it";
 import Token from "markdown-it/lib/token";
 import StateInline from "markdown-it/lib/rules_inline/state_inline";
 import StateBlock from "markdown-it/lib/rules_block/state_block";
@@ -192,7 +192,7 @@ function math_block(
   return true;
 }
 
-export default function (md: MarkdownIt, options: any) {
+export = function (md: MarkdownIt, options: any) {
   // Default options
 
   options = options || {};
@@ -229,11 +229,14 @@ export default function (md: MarkdownIt, options: any) {
         result += this.renderToken(tokens, i, options);
       }
     }
-    if (!tokens.every((token) => token.tag !== "math")) {
+    const noMath = tokens.every(function isNotMath(token) {
+      return token.tag !== "math" && (Array.isArray(token.children) ? token.children.every(isNotMath) : true);
+    });
+    if (!noMath) {
       result += `<style>${adaptor.textContent(
         svg.styleSheet(mathDocument) as any
       )}</style>`;
     }
     return result;
   };
-}
+};
