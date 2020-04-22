@@ -8,9 +8,9 @@ for rendering output.
 */
 
 import type MarkdownIt from "markdown-it";
-import Token from "markdown-it/lib/token";
-import StateInline from "markdown-it/lib/rules_inline/state_inline";
-import StateBlock from "markdown-it/lib/rules_block/state_block";
+import type Token from "markdown-it/lib/token";
+import type StateInline from "markdown-it/lib/rules_inline/state_inline";
+import type StateBlock from "markdown-it/lib/rules_block/state_block";
 import { mathjax } from "mathjax-full/js/mathjax";
 import { TeX } from "mathjax-full/js/input/tex";
 import { SVG } from "mathjax-full/js/output/svg";
