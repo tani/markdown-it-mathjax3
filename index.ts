@@ -214,28 +214,15 @@ export = function (md: MarkdownIt, options: any) {
       mathDocument.convert(tokens[idx].content, options)
     );
   };
+  const render = md.renderer.render.bind(md.renderer)
   md.renderer.render = function (tokens, options, env) {
-    let result = "",
-      rules = this.rules;
-
-    for (let i = 0, len = tokens.length; i < len; i++) {
-      const type = tokens[i].type;
-
-      if (type === "inline") {
-        result += this.renderInline(tokens[i].children || [], options, env);
-      } else if (typeof rules[type] !== "undefined") {
-        result += (rules[tokens[i].type] as any)(tokens, i, options, env, this);
-      } else {
-        result += this.renderToken(tokens, i, options);
-      }
-    }
+    const result = render(tokens, options, env)
     const noMath = tokens.every(function isNotMath(token) {
       return token.tag !== "math" && (Array.isArray(token.children) ? token.children.every(isNotMath) : true);
     });
     if (!noMath) {
-      result += `<style>${adaptor.textContent(
-        svg.styleSheet(mathDocument) as any
-      )}</style>`;
+      const styleSheet = adaptor.textContent(svg.styleSheet(mathDocument) as any)
+      return `${result}<style>${styleSheet}</style>`;
     }
     return result;
   };

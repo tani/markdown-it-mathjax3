@@ -23,6 +23,7 @@
   "devDependencies": {
     "@types/markdown-it": "^10.0.0",
     "@types/punycode": "^2.1.0",
+    "markdown-it": "^10.0.0",
     "prettier": "^2.0.4",
     "typescript": "^3.8.3"
   },
