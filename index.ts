@@ -17,6 +17,7 @@ import { SVG } from "mathjax-full/js/output/svg";
 import { liteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor";
 import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html";
 import { AllPackages } from "mathjax-full/js/input/tex/AllPackages";
+import juice from "juice";
 
 const adaptor = liteAdaptor();
 RegisterHTMLHandler(adaptor);
@@ -222,7 +223,7 @@ export = function (md: MarkdownIt, options: any) {
     });
     if (!noMath) {
       const styleSheet = adaptor.textContent(svg.styleSheet(mathDocument) as any)
-      return `${result}<style>${styleSheet}</style>`;
+      return juice(`${result}<style>${styleSheet}</style>`);
     }
     return result;
   };
