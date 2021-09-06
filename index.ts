@@ -215,14 +215,19 @@ export = function (md: MarkdownIt, options: any) {
       mathDocument.convert(tokens[idx].content, options)
     );
   };
-  const render = md.renderer.render.bind(md.renderer)
+  const render = md.renderer.render.bind(md.renderer);
   md.renderer.render = function (tokens, options, env) {
-    const result = render(tokens, options, env)
+    const result = render(tokens, options, env);
     const noMath = tokens.every(function isNotMath(token) {
-      return token.tag !== "math" && (Array.isArray(token.children) ? token.children.every(isNotMath) : true);
+      return (
+        token.tag !== "math" &&
+        (Array.isArray(token.children) ? token.children.every(isNotMath) : true)
+      );
     });
     if (!noMath) {
-      const styleSheet = adaptor.textContent(svg.styleSheet(mathDocument) as any)
+      const styleSheet = adaptor.textContent(
+        svg.styleSheet(mathDocument) as any
+      );
       return juice(`${result}<style>${styleSheet}</style>`);
     }
     return result;
