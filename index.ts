@@ -19,11 +19,18 @@ import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html";
 import { AllPackages } from "mathjax-full/js/input/tex/AllPackages";
 import juice from "juice";
 
-const adaptor = liteAdaptor();
-RegisterHTMLHandler(adaptor);
-const tex = new TeX({ packages: AllPackages });
-const svg = new SVG({ fontCache: "none" });
-const mathDocument = mathjax.document("", { InputJax: tex, OutputJax: svg });
+function renderMath(content: string, options: any): string {
+  const adaptor = liteAdaptor();
+  RegisterHTMLHandler(adaptor);
+  const tex = new TeX({ packages: AllPackages });
+  const svg = new SVG({ fontCache: "none" });
+  const mathDocument = mathjax.document(content, { InputJax: tex, OutputJax: svg });
+  const html = adaptor.outerHTML(
+    mathDocument.convert(content, options)
+  );
+  const stylesheet = adaptor.outerHTML(svg.styleSheet(mathDocument) as any)
+  return juice(html+stylesheet)
+}
 
 // Test if potential opening or closing delimieter
 // Assumes that there is a "$" at state.src[pos]
@@ -205,31 +212,10 @@ export = function (md: MarkdownIt, options: any) {
   });
   md.renderer.rules.math_inline = function (tokens: Token[], idx: number) {
     options.display = false;
-    return adaptor.outerHTML(
-      mathDocument.convert(tokens[idx].content, options)
-    );
+    return renderMath(tokens[idx].content, options)
   };
   md.renderer.rules.math_block = function (tokens: Token[], idx: number) {
     options.display = true;
-    return adaptor.outerHTML(
-      mathDocument.convert(tokens[idx].content, options)
-    );
-  };
-  const render = md.renderer.render.bind(md.renderer);
-  md.renderer.render = function (tokens, options, env) {
-    const result = render(tokens, options, env);
-    const noMath = tokens.every(function isNotMath(token) {
-      return (
-        token.tag !== "math" &&
-        (Array.isArray(token.children) ? token.children.every(isNotMath) : true)
-      );
-    });
-    if (!noMath) {
-      const styleSheet = adaptor.textContent(
-        svg.styleSheet(mathDocument) as any
-      );
-      return juice(`${result}<style>${styleSheet}</style>`);
-    }
-    return result;
+    return renderMath(tokens[idx].content, options)
   };
 };
