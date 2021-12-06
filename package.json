@@ -1,6 +1,7 @@
 {
   "name": "markdown-it-mathjax3",
   "version": "3.0.0-0",
+  "type": "module",
   "description": "Fast math support for markdown-it with MathJax",
   "main": "index.js",
   "repository": {
@@ -18,8 +19,9 @@
   "author": "TANIGUCHI Masaya",
   "license": "MIT",
   "dependencies": {
-    "juice": "^8.0.0",
-    "mathjax-full": "^3.2.0"
+    "mathjax-full": "^3.2.0",
+    "rehype": "^12.0.0",
+    "rehype-inline-css": "^0.5.1"
   },
   "devDependencies": {
     "@types/markdown-it": "^12.2.1",

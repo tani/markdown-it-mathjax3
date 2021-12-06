@@ -1,9 +1,10 @@
 /* vim: set filetype=json5: */
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
+    "target": "ES6",
+    "module": "ES6",
     "lib": ["es2020", "dom"],
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true

@@ -11,13 +11,14 @@ import type MarkdownIt from "markdown-it";
 import type Token from "markdown-it/lib/token";
 import type StateInline from "markdown-it/lib/rules_inline/state_inline";
 import type StateBlock from "markdown-it/lib/rules_block/state_block";
-import { mathjax } from "mathjax-full/js/mathjax";
-import { TeX } from "mathjax-full/js/input/tex";
-import { SVG } from "mathjax-full/js/output/svg";
-import { liteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor";
-import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html";
-import { AllPackages } from "mathjax-full/js/input/tex/AllPackages";
-import juice from "juice";
+import { mathjax } from "mathjax-full/js/mathjax.js";
+import { TeX } from "mathjax-full/js/input/tex.js";
+import { SVG } from "mathjax-full/js/output/svg.js";
+import { liteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor.js";
+import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html.js";
+import { AllPackages } from "mathjax-full/js/input/tex/AllPackages.js";
+import {rehype} from "rehype"
+import inlineCss from "rehype-inline-css"
 
 function renderMath(content: string, options: any): string {
   const adaptor = liteAdaptor();
@@ -29,7 +30,7 @@ function renderMath(content: string, options: any): string {
     mathDocument.convert(content, options)
   );
   const stylesheet = adaptor.outerHTML(svg.styleSheet(mathDocument) as any)
-  return juice(html+stylesheet)
+  return rehype().use(inlineCss).processSync(html+stylesheet).toString()
 }
 
 // Test if potential opening or closing delimieter
@@ -200,7 +201,7 @@ function math_block(
   return true;
 }
 
-export = function (md: MarkdownIt, options: any) {
+export default function (md: MarkdownIt, options: any) {
   // Default options
 
   options = options || {};
