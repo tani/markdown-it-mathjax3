@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-mathjax3",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Fast math support for markdown-it with MathJax",
   "main": "index.js",
   "repository": {
