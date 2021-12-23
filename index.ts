@@ -8,6 +8,7 @@ for rendering output.
 */
 
 import type MarkdownIt from "markdown-it";
+
 import type Token from "markdown-it/lib/token";
 import type StateInline from "markdown-it/lib/rules_inline/state_inline";
 import type StateBlock from "markdown-it/lib/rules_block/state_block";
@@ -17,8 +18,7 @@ import { SVG } from "mathjax-full/js/output/svg.js";
 import { liteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor.js";
 import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html.js";
 import { AllPackages } from "mathjax-full/js/input/tex/AllPackages.js";
-import {rehype} from "rehype"
-import inlineCss from "rehype-inline-css"
+import juice from "juice/client";
 
 function renderMath(content: string, options: any): string {
   const adaptor = liteAdaptor();
@@ -30,7 +30,7 @@ function renderMath(content: string, options: any): string {
     mathDocument.convert(content, options)
   );
   const stylesheet = adaptor.outerHTML(svg.styleSheet(mathDocument) as any)
-  return rehype().use(inlineCss).processSync(html+stylesheet).toString()
+  return juice(html+stylesheet)
 }
 
 // Test if potential opening or closing delimieter
@@ -201,7 +201,7 @@ function math_block(
   return true;
 }
 
-export default function (md: MarkdownIt, options: any) {
+function plugin(md: MarkdownIt, options: any) {
   // Default options
 
   options = options || {};
@@ -220,3 +220,6 @@ export default function (md: MarkdownIt, options: any) {
     return renderMath(tokens[idx].content, options)
   };
 };
+
+plugin.default = plugin
+export = plugin
