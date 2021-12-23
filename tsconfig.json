@@ -1,7 +1,7 @@
 /* vim: set filetype=json5: */
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES6",
     "module": "commonjs",
     "lib": ["es2020", "dom"],
     "moduleResolution": "node",
