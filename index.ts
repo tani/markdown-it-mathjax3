@@ -6,7 +6,6 @@ https://github.com/runarberg/markdown-it-math
 It differs in that it takes (a subset of) LaTeX as input and relies on MathJax
 for rendering output.
 */
-
 import type MarkdownIt from "markdown-it";
 
 import type Token from "markdown-it/lib/token";
@@ -20,16 +19,23 @@ import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html.js";
 import { AllPackages } from "mathjax-full/js/input/tex/AllPackages.js";
 import juice from "juice/client";
 
-function renderMath(content: string, options: any): string {
+interface DocumentOptions {
+  InputJax: TeX<unknown, unknown, unknown>;
+  OutputJax: SVG<unknown, unknown, unknown>;
+}
+
+interface ConvertOptions {
+  display: boolean
+}
+
+function renderMath(content: string, documentOptions: DocumentOptions, convertOptions: ConvertOptions): string {
   const adaptor = liteAdaptor();
   RegisterHTMLHandler(adaptor);
-  const tex = new TeX({ packages: AllPackages });
-  const svg = new SVG({ fontCache: "none" });
-  const mathDocument = mathjax.document(content, { InputJax: tex, OutputJax: svg });
+  const mathDocument = mathjax.document(content, documentOptions);
   const html = adaptor.outerHTML(
-    mathDocument.convert(content, options)
+    mathDocument.convert(content, convertOptions)
   );
-  const stylesheet = adaptor.outerHTML(svg.styleSheet(mathDocument) as any)
+  const stylesheet = adaptor.outerHTML(documentOptions.OutputJax.styleSheet(mathDocument) as any)
   return juice(html+stylesheet)
 }
 
@@ -204,7 +210,13 @@ function math_block(
 function plugin(md: MarkdownIt, options: any) {
   // Default options
 
-  options = options || {};
+  const documentOptions = {
+    InputJax: new TeX({ packages: AllPackages,  ...options?.tex }),
+    OutputJax: new SVG({ fontCache: 'none',  ...options?.svg })
+  }
+  const convertOptions = {
+    display: false
+  }
 
   // set MathJax as the renderer for markdown-it-simplemath
   md.inline.ruler.after("escape", "math_inline", math_inline);
@@ -212,12 +224,12 @@ function plugin(md: MarkdownIt, options: any) {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
   md.renderer.rules.math_inline = function (tokens: Token[], idx: number) {
-    options.display = false;
-    return renderMath(tokens[idx].content, options)
+    convertOptions.display = false;
+    return renderMath(tokens[idx].content, documentOptions, convertOptions)
   };
   md.renderer.rules.math_block = function (tokens: Token[], idx: number) {
-    options.display = true;
-    return renderMath(tokens[idx].content, options)
+    convertOptions.display = true;
+    return renderMath(tokens[idx].content, documentOptions, convertOptions)
   };
 };
 
