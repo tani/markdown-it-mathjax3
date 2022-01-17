@@ -4,31 +4,36 @@ Add Math to your Markdown
 
 This is a fork of [markdown-it-katex](http://waylonflinn.github.io/markdown-it-katex/) to support MathJax v3 and SVG rendering.
 
-## Usage
+## Quick Start
 
-Install markdown-it
+1. Install markdown-it and this plugin
 
-```
-npm install markdown-it
-```
+   ```
+   npm install markdown-it markdown-it-mathjax3
+   ```
 
-Install the plugin
+2. Use it in your  code
 
-```
-npm install markdown-it-mathjax3
-```
+   ```javascript
+   var md = require('markdown-it')(),
+       mathjax3 = require('markdown-it-mathjax3');
+   
+   md.use(mathjax3);
+   
+   // double backslash is required for javascript strings, but not html input
+   var result = md.render('# Math Rulez! \n  $\\sqrt{3x-1}+(1+x)^2$');
+   ```
 
-Use it in your javascript
+## Customization
 
-```javascript
-var md = require('markdown-it')(),
-    mathjax3 = require('markdown-it-mathjax3');
+This plugin accepts the MathJax configuration.
+Instead of `<script>window.MathJax = { tex: ..., svg: ...}</script>`,
+pass it like `md.use(mathjax3, { tex: ..., svg: ... })`.
 
-md.use(mathjax3);
+## FAQ
 
-// double backslash is required for javascript strings, but not html input
-var result = md.render('# Math Rulez! \n  $\\sqrt{3x-1}+(1+x)^2$');
-```
+- How to attach equation tags?
+  -- Pass the options like `md.use(mathjax3, { tex: {tags: 'ams'} })`
 
 ## Examples
 
