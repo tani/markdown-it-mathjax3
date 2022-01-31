@@ -38,6 +38,7 @@
     "LICENSE",
     "README.md",
     "index.js",
+    "index.d.ts",
     "package.json"
   ]
 }
