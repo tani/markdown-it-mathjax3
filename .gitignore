@@ -1,2 +1,4 @@
 node_modules
-bundle.js
+index.js
+index.d.ts
+
