@@ -17,7 +17,7 @@ import { SVG } from "mathjax-full/js/output/svg.js";
 import { liteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor.js";
 import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html.js";
 import { AllPackages } from "mathjax-full/js/input/tex/AllPackages.js";
-import juice from "juice/client";
+import * as stiletto from "stiletto";
 
 interface DocumentOptions {
   InputJax: TeX<unknown, unknown, unknown>;
@@ -35,8 +35,8 @@ function renderMath(content: string, documentOptions: DocumentOptions, convertOp
   const html = adaptor.outerHTML(
     mathDocument.convert(content, convertOptions)
   );
-  const stylesheet = adaptor.outerHTML(documentOptions.OutputJax.styleSheet(mathDocument) as any)
-  return juice(html+stylesheet)
+  const stylesheet = adaptor.innerHTML(documentOptions.OutputJax.styleSheet(mathDocument) as any)
+  return stiletto.inline(html, stylesheet)
 }
 
 // Test if potential opening or closing delimieter
@@ -172,7 +172,7 @@ function math_block(
     found = true;
   }
 
-  for (next = start; !found; ) {
+  for (next = start; !found;) {
     next++;
 
     if (next >= end) {
@@ -211,8 +211,8 @@ function plugin(md: MarkdownIt, options: any) {
   // Default options
 
   const documentOptions = {
-    InputJax: new TeX({ packages: AllPackages,  ...options?.tex }),
-    OutputJax: new SVG({ fontCache: 'none',  ...options?.svg })
+    InputJax: new TeX({ packages: AllPackages, ...options?.tex }),
+    OutputJax: new SVG({ fontCache: 'none', ...options?.svg })
   }
   const convertOptions = {
     display: false
@@ -223,11 +223,11 @@ function plugin(md: MarkdownIt, options: any) {
   md.block.ruler.after("blockquote", "math_block", math_block, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
-  md.renderer.rules.math_inline = function (tokens: Token[], idx: number) {
+  md.renderer.rules.math_inline = function(tokens: Token[], idx: number) {
     convertOptions.display = false;
     return renderMath(tokens[idx].content, documentOptions, convertOptions)
   };
-  md.renderer.rules.math_block = function (tokens: Token[], idx: number) {
+  md.renderer.rules.math_block = function(tokens: Token[], idx: number) {
     convertOptions.display = true;
     return renderMath(tokens[idx].content, documentOptions, convertOptions)
   };
