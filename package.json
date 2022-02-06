@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "mathjax-full": "^3.2.0",
-    "stiletto": "^0.5.2"
+    "stiletto": "^0.6.0"
   },
   "devDependencies": {
     "@types/markdown-it": "^12.2.1",
