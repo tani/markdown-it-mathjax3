@@ -28,7 +28,7 @@
     "typescript": "^4.4.2"
   },
   "scripts": {
-    "prepublish": "npm build",
+    "prepublish": "npm run build",
     "build": "npm run build:code && npm run build:type",
     "build:code": "tsc",
     "build:type": "tsc -d",

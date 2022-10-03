@@ -17,6 +17,7 @@ import { SVG } from "mathjax-full/js/output/svg.js";
 import { liteAdaptor } from "mathjax-full/js/adaptors/liteAdaptor.js";
 import { RegisterHTMLHandler } from "mathjax-full/js/handlers/html.js";
 import { AllPackages } from "mathjax-full/js/input/tex/AllPackages.js";
+import { AssistiveMmlHandler } from "mathjax-full/js/a11y/assistive-mml.js"
 import juice from "juice/client";
 
 interface DocumentOptions {
@@ -30,7 +31,8 @@ interface ConvertOptions {
 
 function renderMath(content: string, documentOptions: DocumentOptions, convertOptions: ConvertOptions): string {
   const adaptor = liteAdaptor();
-  RegisterHTMLHandler(adaptor);
+  const handler = RegisterHTMLHandler(adaptor);
+  AssistiveMmlHandler(handler);
   const mathDocument = mathjax.document(content, documentOptions);
   const html = adaptor.outerHTML(
     mathDocument.convert(content, convertOptions)
